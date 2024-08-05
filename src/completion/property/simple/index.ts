@@ -7,14 +7,9 @@ import {color} from "./src/color";
 import {content} from "./src/content";
 import {display} from "./src/display";
 import {float} from "./src/float";
-import {height} from "./src/height";
 import {left} from "./src/left";
 import {letter_spacing} from "./src/letter_spacing";
 import {line_height} from "./src/line_height";
-import {max_height} from "./src/max_height";
-import {max_width} from "./src/max_width";
-import {min_height} from "./src/min_height";
-import {min_width} from "./src/min_width";
 import {opacity} from "./src/opacity";
 import {outline} from "./src/outline";
 import {pointer_events} from "./src/pointer_events";
@@ -28,7 +23,6 @@ import {user_select} from "./src/user_select";
 import {vertical_align} from "./src/vertical_align";
 import {visibility} from "./src/visibility";
 import {white_space} from "./src/white_space";
-import {width} from "./src/width";
 import {z_index} from "./src/z_index";
 
 export const simple_properties:TProperty[] = [
@@ -40,14 +34,9 @@ export const simple_properties:TProperty[] = [
     content,
     display,
     float,
-    height,
     left,
     letter_spacing,
     line_height,
-    max_height,
-    max_width,
-    min_height,
-    min_width,
     opacity,
     outline,
     pointer_events,
@@ -61,6 +50,5 @@ export const simple_properties:TProperty[] = [
     vertical_align,
     visibility,
     white_space,
-    width,
     z_index,
 ];

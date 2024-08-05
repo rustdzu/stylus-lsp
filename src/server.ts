@@ -12,6 +12,10 @@ import {
 
 import {TextDocument} from "vscode-languageserver-textdocument";
 import {properties} from "./completion/properties";
+import {getFiles} from "./completion/require/getFiles";
+import * as fs from 'fs';
+import * as path from 'path';
+import {log} from "./log";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
@@ -22,7 +26,7 @@ connection.onInitialize((params:InitializeParams) => {
             textDocumentSync: TextDocumentSyncKind.Incremental,
             completionProvider: {
                 resolveProvider: true,
-                triggerCharacters: ["@", ":", " "]
+                triggerCharacters: [ "@", ":", " ", "/" ]
             }
         }
     };
@@ -37,19 +41,41 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
         end: { line: position.line, character: position.character }
     }).trim();
 
-    if (!line || !(new RegExp("^\\w", "i").test(line))) {
+    if (!line) {
+        return [];
+    }
+
+    if (line.startsWith("@")) {
+        if (!line.includes("@require")) {
+            return [
+                {
+                    label: "@require",
+                    kind: CompletionItemKind.Keyword,
+                    insertText: "@require ''",
+                },
+            ];
+        }
+        const written_path = line.match(/@require\s+'([^']+)/)?.[1];
+        if (written_path) {
+            const dir = path.dirname(textDocumentPosition.textDocument.uri.replace("file://", ""));
+            const normalized = path.normalize(path.join(dir, written_path));
+            return getFiles(normalized);
+        }
+    }
+
+    if (!(new RegExp("^\\w", "i").test(line))) {
         return [];
     }
 
     for (let i = 0; i < properties.length; i++) {
-        if (line?.endsWith(`${properties[i][0]}:`)) {
+        if (line.endsWith(`${properties[i][0]}:`)) {
             return properties[i][1].map(value => ({
                 label: value,
                 kind: CompletionItemKind.Value,
                 insertText: `${value}`,
             }));
         }
-        if (line?.includes(`${properties[i][0]}`)) {
+        if (line.includes(`${properties[i][0]}`)) {
             return [];
         }
     }
