@@ -10,28 +10,11 @@ import {
     InitializeResult
 } from "vscode-languageserver/node";
 
-import { TextDocument } from "vscode-languageserver-textdocument";
+import {TextDocument} from "vscode-languageserver-textdocument";
+import {properties} from "./completion/properties";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
-
-// Словарь CSS свойств и их значений
-const cssProperties = {
-    "display": [
-        "none",
-        "block",
-        "inline",
-        "inline-block",
-        "flex",
-        "grid",
-        "inline-flex",
-        "inline-grid",
-        "table",
-        "table-row",
-        "table-cell"
-    ],
-    // Другие свойства можно добавить аналогичным образом
-};
 
 connection.onInitialize((params:InitializeParams) => {
     const result:InitializeResult = {
@@ -39,7 +22,7 @@ connection.onInitialize((params:InitializeParams) => {
             textDocumentSync: TextDocumentSyncKind.Incremental,
             completionProvider: {
                 resolveProvider: true,
-                triggerCharacters: ["@", ":", " ", ";"]
+                triggerCharacters: ["@", ":", " "]
             }
         }
     };
@@ -54,37 +37,27 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
         end: { line: position.line, character: position.character }
     }).trim();
 
-    // Если строка оканчивается на "display", предложить значения display
-    if (line?.endsWith("display:")) {
-        const completionItems:CompletionItem[] = cssProperties["display"].map(value => ({
-            label: value,
-            kind: CompletionItemKind.Value,
-            insertText: `${value}`
-        }));
-        return completionItems;
+    if (!line || !(new RegExp("^\\w", "i").test(line))) {
+        return [];
     }
 
-    // Если строка содержит "display", предложить значения display
-    if (line?.includes("display:")) {
-        const completionItems:CompletionItem[] = cssProperties["display"].map(value => ({
-            label: value,
-            kind:CompletionItemKind.Value,
-            insertText: `${value}`
-        }));
-        return completionItems;
+    for (let i = 0; i < properties.length; i++) {
+        if (line?.endsWith(`${properties[i][0]}:`)) {
+            return properties[i][1].map(value => ({
+                label: value,
+                kind: CompletionItemKind.Value,
+                insertText: `${value}`,
+            }));
+        }
+        if (line?.includes(`${properties[i][0]}`)) {
+            return [];
+        }
     }
-
-    // Предложить свойства CSS, если они не были предложены ранее
-    const completionItems:CompletionItem[] = [];
-    if (line) {
-        completionItems.push({
-            label: "display",
-            kind:CompletionItemKind.Property,
-            insertText: "display: "
-        });
-    }
-
-    return completionItems;
+    return properties.map(value => ({
+        label: value[0],
+        kind:CompletionItemKind.Property,
+        insertText: `${value[0]}: `,
+    }));
 });
 
 connection.onCompletionResolve((item:CompletionItem):CompletionItem => {
