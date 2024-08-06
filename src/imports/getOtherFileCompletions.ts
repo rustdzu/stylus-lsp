@@ -37,6 +37,9 @@ export const processFileContent = (file_path?:string) => {
     if (!file_path) {
         return;
     }
+    if (completions[file_path]) {
+        return;
+    }
     fs.readFile(file_path, (err, content) => {
         if (!content) {
             return;
