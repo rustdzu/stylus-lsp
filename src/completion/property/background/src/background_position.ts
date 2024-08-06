@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const background_position: TProperty = [
+export const background_position:TProperty = [
     "background_position",
     [
         "0 number",

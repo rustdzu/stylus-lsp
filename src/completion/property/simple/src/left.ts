@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const left: TProperty = [
+export const left:TProperty = [
     "left",
     [
         "auto",

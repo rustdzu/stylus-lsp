@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const background_size: TProperty = [
+export const background_size:TProperty = [
     "background_size",
     [
         "auto number",

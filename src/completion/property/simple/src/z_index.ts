@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const z_index: TProperty = [
+export const z_index:TProperty = [
     "z-index",
     [
     ],

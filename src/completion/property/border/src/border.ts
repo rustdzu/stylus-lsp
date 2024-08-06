@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const border: TProperty = [
+export const border:TProperty = [
     "border",
     [
         "#color",

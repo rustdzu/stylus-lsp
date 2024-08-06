@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const top: TProperty = [
+export const top:TProperty = [
     "top",
     [
         "auto",

@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const white_space: TProperty = [
+export const white_space:TProperty = [
     "white-space",
     [
         "normal",

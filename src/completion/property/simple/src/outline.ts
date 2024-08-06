@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const outline: TProperty = [
+export const outline:TProperty = [
     "outline",
     [
     ],

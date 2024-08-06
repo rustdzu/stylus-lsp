@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const user_select: TProperty = [
+export const user_select:TProperty = [
     "user-select",
     [
         "none"

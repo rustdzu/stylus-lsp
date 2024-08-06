@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const transform: TProperty = [
+export const transform:TProperty = [
     "transform",
     [
         "none",

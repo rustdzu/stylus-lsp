@@ -18,7 +18,7 @@ import {getNormalDocumentPath} from "./helpers/getNormalDocumentPath";
 import {getOtherFileCompletions, processFileContent} from "./imports/getOtherFileCompletions";
 
 const connection = createConnection(ProposedFeatures.all);
-const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
+const documents:TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
 
 documents.onDidOpen((params) => {

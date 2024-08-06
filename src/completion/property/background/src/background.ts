@@ -1,6 +1,6 @@
 import {TProperty} from "../../../types";
 
-export const background: TProperty = [
+export const background:TProperty = [
     "background",
     [
         "#color",
