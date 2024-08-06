@@ -10,8 +10,10 @@ import {float} from "./src/float";
 import {left} from "./src/left";
 import {letter_spacing} from "./src/letter_spacing";
 import {line_height} from "./src/line_height";
+import {margin} from "./src/margin";
 import {opacity} from "./src/opacity";
 import {outline} from "./src/outline";
+import {padding} from "./src/padding";
 import {pointer_events} from "./src/pointer_events";
 import {position} from "./src/position";
 import {right} from "./src/right";
@@ -37,8 +39,10 @@ export const simple_properties:TProperty[] = [
     left,
     letter_spacing,
     line_height,
+    ...margin,
     opacity,
     outline,
+    ...padding,
     pointer_events,
     position,
     right,
