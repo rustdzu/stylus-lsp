@@ -5,6 +5,7 @@ import {box_sizing} from "./src/box_sizing";
 import {clear} from "./src/clear";
 import {color} from "./src/color";
 import {content} from "./src/content";
+import {cursor} from "./src/cursor";
 import {display} from "./src/display";
 import {float} from "./src/float";
 import {left} from "./src/left";
@@ -35,6 +36,7 @@ export const simple_properties:TProperty[] = [
     clear,
     color,
     content,
+    cursor,
     display,
     float,
     left,
