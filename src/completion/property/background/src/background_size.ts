@@ -1,12 +1,10 @@
 import {TProperty} from "../../../types";
 
 export const background_size:TProperty = [
-    "background_size",
+    "background-size",
     [
-        "auto number",
+        "auto",
         "contain",
         "cover",
-        "number",
-        "number number"
     ],
 ];

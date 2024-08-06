@@ -1,8 +1,8 @@
 import {TProperty} from "../../../types";
 
 export const background_clip:TProperty = [
-    "background_clip",
+    "background-clip",
     [
-        "border-box"
+        "border-box",
     ],
 ];
