@@ -2,7 +2,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities.hoverProvider = false
 
-local config_path = vim.fn.expand('<sfile>:p:h')
+local config_path = vim.fn.expand(':p:h')
 
 local server_path = vim.fn.fnamemodify(config_path .. '/../../src/server.ts', ':p')
 
