@@ -1,7 +1,7 @@
 import {TProperty} from "../../../types";
 
-export const text_align: TProperty = [
-    "text_align",
+export const text_align:TProperty = [
+    "text-align",
     [
         "center",
         "left",
