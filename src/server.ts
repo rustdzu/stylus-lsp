@@ -54,6 +54,10 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
         return [];
     }
 
+    if (line.startsWith("$")) {
+        return getOtherFileCompletions(position);
+    }
+
     if (line.startsWith("@")) {
         if (!line.includes("@require")) {
             return [
@@ -82,14 +86,14 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
                 label: value,
                 kind: CompletionItemKind.Value,
                 insertText: `${value}`,
-            })).concat(getOtherFileCompletions());
+            }));
         }
     }
     return properties.map<CompletionItem>(value => ({
         label: value[0],
         kind: CompletionItemKind.Property,
         insertText: `${value[0]}: `,
-    })).concat(getOtherFileCompletions());
+    }));
 });
 
 connection.onCompletionResolve((item:CompletionItem):CompletionItem => {
