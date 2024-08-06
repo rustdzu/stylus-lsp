@@ -7,31 +7,40 @@ import {
     CompletionItem,
     CompletionItemKind,
     TextDocumentPositionParams,
-    InitializeResult
+    InitializeResult,
 } from "vscode-languageserver/node";
 
 import {TextDocument} from "vscode-languageserver-textdocument";
 import {properties} from "./completion/properties";
 import {getFiles} from "./completion/require/getFiles";
-import * as fs from 'fs';
 import * as path from 'path';
-import {log} from "./log";
+import {getNormalDocumentPath} from "./helpers/getNormalDocumentPath";
+import {getOtherFileCompletions, processFileContent} from "./imports/getOtherFileCompletions";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
+
+documents.onDidOpen((params) => {
+    processFileContent(getNormalDocumentPath(params.document.uri));
+});
+
 connection.onInitialize((params:InitializeParams) => {
     const result:InitializeResult = {
         capabilities: {
-            textDocumentSync: TextDocumentSyncKind.Incremental,
+            textDocumentSync: {
+                openClose: true,
+                change: TextDocumentSyncKind.Full,
+            },
             completionProvider: {
                 resolveProvider: true,
-                triggerCharacters: [ "@", ":", " ", "/" ]
+                triggerCharacters: [ "@", ":", " ", "/", "$" ]
             }
         }
     };
     return result;
 });
+
 
 connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):CompletionItem[] => {
     const textDocument = documents.get(textDocumentPosition.textDocument.uri);
@@ -57,33 +66,30 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
         }
         const written_path = line.match(/@require\s+'([^']+)/)?.[1];
         if (written_path) {
-            const dir = path.dirname(textDocumentPosition.textDocument.uri.replace("file://", ""));
+            const dir = path.dirname(getNormalDocumentPath(textDocument?.uri));
             const normalized = path.normalize(path.join(dir, written_path));
             return getFiles(normalized);
         }
     }
 
-    if (!(new RegExp("^\\w", "i").test(line))) {
+    if (!(new RegExp("^\\w|\$", "i").test(line))) {
         return [];
     }
 
     for (let i = 0; i < properties.length; i++) {
-        if (line.endsWith(`${properties[i][0]}:`)) {
-            return properties[i][1].map(value => ({
+        if (line.includes(`${properties[i][0]}:`)) {
+            return properties[i][1].map<CompletionItem>(value => ({
                 label: value,
                 kind: CompletionItemKind.Value,
                 insertText: `${value}`,
-            }));
-        }
-        if (line.includes(`${properties[i][0]}`)) {
-            return [];
+            })).concat(getOtherFileCompletions());
         }
     }
-    return properties.map(value => ({
+    return properties.map<CompletionItem>(value => ({
         label: value[0],
-        kind:CompletionItemKind.Property,
+        kind: CompletionItemKind.Property,
         insertText: `${value[0]}: `,
-    }));
+    })).concat(getOtherFileCompletions());
 });
 
 connection.onCompletionResolve((item:CompletionItem):CompletionItem => {
