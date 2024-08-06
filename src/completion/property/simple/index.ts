@@ -13,6 +13,7 @@ import {line_height} from "./src/line_height";
 import {margin} from "./src/margin";
 import {opacity} from "./src/opacity";
 import {outline} from "./src/outline";
+import {overflow} from "./src/overflow";
 import {padding} from "./src/padding";
 import {pointer_events} from "./src/pointer_events";
 import {position} from "./src/position";
@@ -42,6 +43,7 @@ export const simple_properties:TProperty[] = [
     ...margin,
     opacity,
     outline,
+    ...overflow,
     ...padding,
     pointer_events,
     position,
