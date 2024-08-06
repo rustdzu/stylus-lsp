@@ -54,7 +54,7 @@ connection.onCompletion((textDocumentPosition:TextDocumentPositionParams):Comple
         return [];
     }
 
-    if (line.startsWith("$")) {
+    if (line.endsWith("$")) {
         return getOtherFileCompletions(position);
     }
 
