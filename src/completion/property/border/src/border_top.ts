@@ -1,8 +1,7 @@
 import {TProperty} from "../../../types";
 
 export const border_top:TProperty = [
-    "border_top",
+    "border-top",
     [
-        "number solid #color"
     ],
 ];
