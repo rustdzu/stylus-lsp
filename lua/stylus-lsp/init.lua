@@ -4,7 +4,7 @@ capabilities.hoverProvider = false
 
 local config_path = vim.fn.expand('<sfile>:p:h')
 
-local server_path = vim.fn.fnamemodify(config_path .. '/src/server.ts', ':p')
+local server_path = vim.fn.fnamemodify(config_path .. '/../../src/server.ts', ':p')
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "stylus",
