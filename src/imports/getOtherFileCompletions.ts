@@ -4,6 +4,7 @@ import {findValues} from "../helpers/findValues";
 import * as path from 'path';
 
 const completions:Record<string, CompletionItem[]> = {};
+const cache:Record<string, string> = {};
 
 export const getOtherFileCompletions = (position:Position):CompletionItem[] => {
     const res:CompletionItem[] = [];
@@ -45,14 +46,31 @@ export const processFileContent = (file_path?:string) => {
         }
         const content_str = content.toString();
 
-        const variables = findValues(/^(\$.+)\s=/gm, content_str).map<CompletionItem>(value => ({
+        const getValues = (values:string[]):string[] => {
+            const res:string[] = [];
+
+            values.forEach((value) => {
+                if (cache[value]) {
+                    return;
+                }
+                res.push(value);
+                cache[value] = file_path;
+            });
+            return res;
+        };
+
+        const variables = getValues(
+            findValues(/^(\$.+)\s=/gm, content_str),
+        ).map<CompletionItem>(value => ({
             label: value,
             kind: CompletionItemKind.Value,
             insertText: value,
         }));
 
         
-        const functions = findValues(/^(\w.+)\(/gm, content_str).map<CompletionItem>(value => ({
+        const functions = getValues(
+            findValues(/^(\w.+)\(/gm, content_str)
+        ).map<CompletionItem>(value => ({
             label: value,
             kind: CompletionItemKind.Function,
         }));
