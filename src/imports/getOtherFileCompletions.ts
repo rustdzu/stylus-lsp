@@ -27,8 +27,9 @@ export const getOtherFileCompletions = (position:Position):CompletionItem[] => {
                         newText: completion.label,
                     },
                 });
+            } else {
+                res.push(completion);
             }
-            res.push(completion);
         });
     });
     return res;
