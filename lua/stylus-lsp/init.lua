@@ -9,7 +9,7 @@ end
 
 local config_path = get_script_path()
 
-local server_path = vim.fn.fnamemodify(config_path .. '/../../src/server.ts', ':p')
+local server_path = vim.fn.fnamemodify(config_path .. '/../../server/src/server.ts', ':p')
 
 local global_npm_path = vim.fn.trim(vim.fn.system('npm root -g'))
 

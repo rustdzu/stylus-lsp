@@ -1,11 +1,13 @@
 # Имя вашего проекта
 PROJECT_NAME = stylus-lsp
 
+LSP_DIR_NAME = server
+
 # Команда для установки npm-зависимостей
-NPM_INSTALL = npm install
+NPM_INSTALL = npm install --prefix $(LSP_DIR_NAME)
 
 # Путь к вашему файлу package.json
-PACKAGE_JSON = ./package.json
+PACKAGE_JSON = ./$(LSP_DIR_NAME)/package.json
 
 # Цель по умолчанию
 all: install
@@ -18,7 +20,7 @@ install: $(PACKAGE_JSON)
 # Цель для очистки node_modules
 clean:
 	@echo "Cleaning npm dependencies for $(PROJECT_NAME)..."
-	rm -rf node_modules
+	rm -rf $(LSP_DIR_NAME)/node_modules
 
 # Цель для повторной установки npm-зависимостей
 reinstall: clean install
